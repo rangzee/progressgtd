@@ -22,7 +22,10 @@ namespace ProgressGTD
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            //tmMain.Start();
+            this.Left = 0;
+            this.Top = Screen.FromControl(this).WorkingArea.Height - this.Height;
+
+            this.nudMain.Select();
 
             // Initialize progress bar
             if (TaskbarManager.IsPlatformSupported)
@@ -45,19 +48,29 @@ namespace ProgressGTD
         {
             if (TaskbarManager.IsPlatformSupported)
             {
-                //TaskbarManager.Instance.SetProgressState(TaskbarProgressBarState.Error);
-                TaskbarManager.Instance.SetProgressValue(++current, max, this.Handle);
+                current++;
 
                 pbMain.Maximum = max;
                 pbMain.Value = current;
+
+                if (cbxShow.Checked)
+                {
+                    TaskbarManager.Instance.SetProgressState(TaskbarProgressBarState.Normal);
+                    TaskbarManager.Instance.SetProgressValue(current, max, this.Handle);
+                }
             }
 
             if (current >= max)
             {
                 tmMain.Stop();
-                TaskbarManager.Instance.SetProgressState(TaskbarProgressBarState.Error);
-                //MessageBox.Show(this, "TIME IS UP!");
-                //TaskbarManager.Instance.SetProgressState(TaskbarProgressBarState.NoProgress);
+
+                if (cbxShow.Checked)
+                {
+                    TaskbarManager.Instance.SetProgressState(TaskbarProgressBarState.Error);
+                    //MessageBox.Show(this, "TIME IS UP!");
+                    //TaskbarManager.Instance.SetProgressState(TaskbarProgressBarState.NoProgress);
+                }
+
                 pbMain.Value = 0;
             }
         }
@@ -66,7 +79,6 @@ namespace ProgressGTD
         {
             current = 0;
             max = (int)(nudMain.Value * 60);
-            TaskbarManager.Instance.SetProgressState(TaskbarProgressBarState.Normal);
             tmMain.Start();
         }
     }

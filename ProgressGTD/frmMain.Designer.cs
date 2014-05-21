@@ -34,17 +34,17 @@
             this.tmMain = new System.Windows.Forms.Timer(this.components);
             this.nudMain = new System.Windows.Forms.NumericUpDown();
             this.label1 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
             this.btnGO = new System.Windows.Forms.Button();
+            this.cbxShow = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.nudMain)).BeginInit();
             this.SuspendLayout();
             // 
             // pbMain
             // 
             this.pbMain.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.pbMain.Location = new System.Drawing.Point(0, 114);
+            this.pbMain.Location = new System.Drawing.Point(0, 71);
             this.pbMain.Name = "pbMain";
-            this.pbMain.Size = new System.Drawing.Size(532, 11);
+            this.pbMain.Size = new System.Drawing.Size(214, 11);
             this.pbMain.TabIndex = 0;
             // 
             // tmMain
@@ -54,7 +54,7 @@
             // 
             // nudMain
             // 
-            this.nudMain.Location = new System.Drawing.Point(208, 34);
+            this.nudMain.Location = new System.Drawing.Point(14, 12);
             this.nudMain.Name = "nudMain";
             this.nudMain.Size = new System.Drawing.Size(66, 21);
             this.nudMain.TabIndex = 1;
@@ -67,38 +67,39 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(280, 39);
+            this.label1.Location = new System.Drawing.Point(86, 17);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(59, 12);
             this.label1.TabIndex = 2;
             this.label1.Text = "Minute(s)";
             // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(160, 39);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(41, 12);
-            this.label2.TabIndex = 3;
-            this.label2.Text = "Cycle:";
-            // 
             // btnGO
             // 
-            this.btnGO.Location = new System.Drawing.Point(345, 34);
+            this.btnGO.Location = new System.Drawing.Point(151, 9);
             this.btnGO.Name = "btnGO";
-            this.btnGO.Size = new System.Drawing.Size(75, 23);
+            this.btnGO.Size = new System.Drawing.Size(49, 23);
             this.btnGO.TabIndex = 4;
             this.btnGO.Text = "GO";
             this.btnGO.UseVisualStyleBackColor = true;
             this.btnGO.Click += new System.EventHandler(this.btnGO_Click);
             // 
+            // cbxShow
+            // 
+            this.cbxShow.AutoSize = true;
+            this.cbxShow.Location = new System.Drawing.Point(14, 39);
+            this.cbxShow.Name = "cbxShow";
+            this.cbxShow.Size = new System.Drawing.Size(168, 16);
+            this.cbxShow.TabIndex = 5;
+            this.cbxShow.Text = "Show progress in taskbar";
+            this.cbxShow.UseVisualStyleBackColor = true;
+            // 
             // frmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(532, 125);
+            this.ClientSize = new System.Drawing.Size(214, 82);
+            this.Controls.Add(this.cbxShow);
             this.Controls.Add(this.btnGO);
-            this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.nudMain);
             this.Controls.Add(this.pbMain);
@@ -106,7 +107,7 @@
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.Name = "frmMain";
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
+            this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
             this.Text = "Progress GTD";
             this.Load += new System.EventHandler(this.Form1_Load);
             ((System.ComponentModel.ISupportInitialize)(this.nudMain)).EndInit();
@@ -121,8 +122,8 @@
         private System.Windows.Forms.Timer tmMain;
         private System.Windows.Forms.NumericUpDown nudMain;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Button btnGO;
+        private System.Windows.Forms.CheckBox cbxShow;
     }
 }
 
