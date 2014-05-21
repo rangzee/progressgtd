@@ -54,6 +54,12 @@
             // 
             // nudMain
             // 
+            this.nudMain.DecimalPlaces = 1;
+            this.nudMain.Increment = new decimal(new int[] {
+            1,
+            0,
+            0,
+            65536});
             this.nudMain.Location = new System.Drawing.Point(14, 12);
             this.nudMain.Name = "nudMain";
             this.nudMain.Size = new System.Drawing.Size(66, 21);
@@ -75,6 +81,7 @@
             // 
             // btnGO
             // 
+            this.btnGO.DialogResult = System.Windows.Forms.DialogResult.OK;
             this.btnGO.Location = new System.Drawing.Point(151, 9);
             this.btnGO.Name = "btnGO";
             this.btnGO.Size = new System.Drawing.Size(49, 23);
@@ -95,6 +102,7 @@
             // 
             // frmMain
             // 
+            this.AcceptButton = this.btnGO;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(214, 82);
@@ -109,7 +117,7 @@
             this.Name = "frmMain";
             this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
             this.Text = "Progress GTD";
-            this.Load += new System.EventHandler(this.Form1_Load);
+            this.Load += new System.EventHandler(this.frmMain_Load);
             ((System.ComponentModel.ISupportInitialize)(this.nudMain)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();

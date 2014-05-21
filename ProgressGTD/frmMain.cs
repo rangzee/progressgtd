@@ -20,12 +20,12 @@ namespace ProgressGTD
             InitializeComponent();
         }
 
-        private void Form1_Load(object sender, EventArgs e)
+        private void frmMain_Load(object sender, EventArgs e)
         {
             this.Left = 0;
             this.Top = Screen.FromControl(this).WorkingArea.Height - this.Height;
 
-            this.nudMain.Select();
+            this.nudMain.Select(0, this.nudMain.Text.Length);
 
             // Initialize progress bar
             if (TaskbarManager.IsPlatformSupported)
@@ -64,12 +64,10 @@ namespace ProgressGTD
             {
                 tmMain.Stop();
 
-                if (cbxShow.Checked)
-                {
-                    TaskbarManager.Instance.SetProgressState(TaskbarProgressBarState.Error);
-                    //MessageBox.Show(this, "TIME IS UP!");
-                    //TaskbarManager.Instance.SetProgressState(TaskbarProgressBarState.NoProgress);
-                }
+                TaskbarManager.Instance.SetProgressValue(current, max, this.Handle);
+                TaskbarManager.Instance.SetProgressState(TaskbarProgressBarState.Error);
+                //MessageBox.Show(this, "TIME IS UP!");
+                //TaskbarManager.Instance.SetProgressState(TaskbarProgressBarState.NoProgress);
 
                 pbMain.Value = 0;
             }
@@ -79,7 +77,12 @@ namespace ProgressGTD
         {
             current = 0;
             max = (int)(nudMain.Value * 60);
+
+            TaskbarManager.Instance.SetProgressState(TaskbarProgressBarState.NoProgress);
+
             tmMain.Start();
+
+            this.WindowState = FormWindowState.Minimized;
         }
     }
 }
