@@ -66,6 +66,7 @@ namespace ProgressGTD
         {
             current = 0;
             max = (int)(nudMain.Value * 60);
+            TaskbarManager.Instance.SetProgressState(TaskbarProgressBarState.Normal);
             tmMain.Start();
         }
     }
