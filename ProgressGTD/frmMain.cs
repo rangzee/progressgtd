@@ -6,6 +6,7 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using System.Configuration;
 using Microsoft.WindowsAPICodePack.Taskbar;
 
 namespace ProgressGTD
@@ -25,6 +26,8 @@ namespace ProgressGTD
             this.Left = 0;
             this.Top = Screen.FromControl(this).WorkingArea.Height - this.Height;
 
+            var interval = GetConfig("Interval");
+            this.nudMain.Text = interval;
             this.nudMain.Select(0, this.nudMain.Text.Length);
 
             // Initialize progress bar
@@ -75,6 +78,8 @@ namespace ProgressGTD
 
         private void btnGO_Click(object sender, EventArgs e)
         {
+            SetConfig("Interval", nudMain.Text);
+
             current = 0;
             max = (int)(nudMain.Value * 60);
 
@@ -84,5 +89,41 @@ namespace ProgressGTD
 
             this.WindowState = FormWindowState.Minimized;
         }
+
+        #region 读写配置文件
+        /// <summary>
+        /// 修改配置文件中某项的值
+        /// </summary>
+        /// <param name="key">appSettings的key</param>
+        /// <param name="value">appSettings的Value</param>
+        public static void SetConfig(string key, string value)
+        {
+            Configuration config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
+
+            if (config.AppSettings.Settings[key] != null)
+                config.AppSettings.Settings[key].Value = value;
+            else
+                config.AppSettings.Settings.Add(key, value);
+
+            config.Save(ConfigurationSaveMode.Modified);
+            ConfigurationManager.RefreshSection("appSettings");
+        }
+
+        /// <summary>
+        /// 读取配置文件某项的值
+        /// </summary>
+        /// <param name="key">appSettings的key</param>
+        /// <returns>appSettings的Value</returns>
+        public static string GetConfig(string key)
+        {
+            string _value = string.Empty;
+            Configuration config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
+            if (config.AppSettings.Settings[key] != null)
+            {
+                _value = config.AppSettings.Settings[key].Value;
+            }
+            return _value;
+        }
+        #endregion
     }
 }
