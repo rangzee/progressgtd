@@ -30,6 +30,9 @@ namespace ProgressGTD
             this.nudMain.Text = interval;
             this.nudMain.Select(0, this.nudMain.Text.Length);
 
+            this.Show();
+            this.btnGO.Focus();
+
             // Initialize progress bar
             if (TaskbarManager.IsPlatformSupported)
             {
@@ -125,5 +128,14 @@ namespace ProgressGTD
             return _value;
         }
         #endregion
+
+        private void nudMain_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (e.KeyChar == 13)
+            {
+                btnGO.Focus();
+                btnGO_Click(sender, e);
+            }
+        }
     }
 }
