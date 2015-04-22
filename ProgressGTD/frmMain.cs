@@ -27,8 +27,11 @@ namespace ProgressGTD
             this.Top = Screen.FromControl(this).WorkingArea.Height - this.Height;
 
             var interval = GetConfig("Interval");
+            var showProgress = GetConfig("ShowProgress");
+
             this.nudMain.Text = interval;
             this.nudMain.Select(0, this.nudMain.Text.Length);
+            this.cbxShow.Checked = showProgress.ToLower() == "true";
 
             this.Show();
             this.btnGO.Focus();
@@ -81,8 +84,6 @@ namespace ProgressGTD
 
         private void btnGO_Click(object sender, EventArgs e)
         {
-            SetConfig("Interval", nudMain.Text);
-
             current = 0;
             max = (int)(nudMain.Value * 60);
 
@@ -136,6 +137,12 @@ namespace ProgressGTD
                 btnGO.Focus();
                 btnGO_Click(sender, e);
             }
+        }
+
+        private void frmMain_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            SetConfig("Interval", nudMain.Text);
+            SetConfig("ShowProgress", cbxShow.Checked.ToString());
         }
     }
 }
