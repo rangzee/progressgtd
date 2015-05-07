@@ -27,11 +27,15 @@ namespace ProgressGTD
             this.Top = Screen.FromControl(this).WorkingArea.Height - this.Height;
 
             var interval = GetConfig("Interval");
+            var intervalRest = GetConfig("IntervalRest");
             var showProgress = GetConfig("ShowProgress");
+            var minimize = GetConfig("Minimize");
 
             this.nudMain.Text = interval;
             this.nudMain.Select(0, this.nudMain.Text.Length);
+            this.nudRest.Text = intervalRest;
             this.cbxShow.Checked = showProgress.ToLower() == "true";
+            this.cbxMinimize.Checked = minimize.ToLower() == "true";
 
             this.Show();
             this.btnGO.Focus();
@@ -79,19 +83,35 @@ namespace ProgressGTD
                 //TaskbarManager.Instance.SetProgressState(TaskbarProgressBarState.NoProgress);
 
                 pbMain.Value = 0;
+                btnGO.Text = "GO!";
             }
         }
 
         private void btnGO_Click(object sender, EventArgs e)
         {
-            current = 0;
-            max = (int)(nudMain.Value * 60);
+            if (btnGO.Text == "GO!" || (btnGO.Text == "Resting... Go work!" && pbMain.Value > 0 && MessageBox.Show("Sure to work?", "Confirm", MessageBoxButtons.OKCancel) == DialogResult.OK))
+            {
+                current = 0;
+                max = (int)(nudMain.Value * 60);
+
+                btnGO.Text = "Working... Break!";
+            }
+            else if (btnGO.Text == "Working... Break!" && MessageBox.Show("Sure to break?", "Confirm", MessageBoxButtons.OKCancel) == DialogResult.OK)
+            {
+                current = 0;
+                max = (int)(nudRest.Value * 60);
+
+                btnGO.Text = "Resting... Go work!";
+            }
 
             TaskbarManager.Instance.SetProgressState(TaskbarProgressBarState.NoProgress);
 
             tmMain.Start();
 
-            this.WindowState = FormWindowState.Minimized;
+            if (cbxMinimize.Checked)
+            {
+                this.WindowState = FormWindowState.Minimized;
+            }
         }
 
         #region 读写配置文件
@@ -142,7 +162,9 @@ namespace ProgressGTD
         private void frmMain_FormClosing(object sender, FormClosingEventArgs e)
         {
             SetConfig("Interval", nudMain.Text);
+            SetConfig("IntervalRest", nudRest.Text);
             SetConfig("ShowProgress", cbxShow.Checked.ToString());
+            SetConfig("Minimize", cbxMinimize.Checked.ToString());
         }
     }
 }
