@@ -71,6 +71,8 @@ namespace ProgressGTD
                     TaskbarManager.Instance.SetProgressState(TaskbarProgressBarState.Normal);
                     TaskbarManager.Instance.SetProgressValue(current, max, this.Handle);
                 }
+
+                this.Text = new TimeSpan(0, 0, max - current).ToString();
             }
 
             if (current >= max)
@@ -83,7 +85,9 @@ namespace ProgressGTD
                 //TaskbarManager.Instance.SetProgressState(TaskbarProgressBarState.NoProgress);
 
                 pbMain.Value = 0;
+
                 btnGO.Text = "GO!";
+                this.Text = "Progress GTD";
             }
         }
 
