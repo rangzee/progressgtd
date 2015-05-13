@@ -93,7 +93,7 @@ namespace ProgressGTD
 
                 pbMain.Value = 0;
 
-                if (btnGO.Text == "Working... Break!" && MessageBox.Show("Time is up! Have a rest?", "Confirm", MessageBoxButtons.OKCancel) == DialogResult.OK)
+                if (btnGO.Text == "Working... Break!" && MessageBox.Show("Time is up! Have a rest?", "Confirm", MessageBoxButtons.OKCancel, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly) == DialogResult.OK)
                 {
                     current = 0;
                     max = (int)(nudRest.Value * 60);
@@ -107,7 +107,7 @@ namespace ProgressGTD
                         this.WindowState = FormWindowState.Minimized;
                     }
                 }
-                else if (btnGO.Text == "Resting... Go work!" && MessageBox.Show("Time is up! Begin to work now?", "Confirm", MessageBoxButtons.OKCancel) == DialogResult.OK)
+                else if (btnGO.Text == "Resting... Go work!" && MessageBox.Show("Time is up! Begin to work now?", "Confirm", MessageBoxButtons.OKCancel, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly) == DialogResult.OK)
                 {
                     current = 0;
                     max = (int)(nudMain.Value * 60);
