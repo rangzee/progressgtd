@@ -72,7 +72,14 @@ namespace ProgressGTD
                     TaskbarManager.Instance.SetProgressValue(current, max, this.Handle);
                 }
 
-                this.Text = new TimeSpan(0, 0, max - current).ToString();
+                if (btnGO.Text == "Working... Break!")
+                {
+                    this.Text = "Working... [" + new TimeSpan(0, 0, max - current).ToString() + "]";
+                }
+                else
+                {
+                    this.Text = "Resting... [" + new TimeSpan(0, 0, max - current).ToString() + "]";
+                }
             }
 
             if (current >= max)
@@ -86,8 +93,41 @@ namespace ProgressGTD
 
                 pbMain.Value = 0;
 
-                btnGO.Text = "GO!";
-                this.Text = "Progress GTD";
+                if (btnGO.Text == "Working... Break!" && MessageBox.Show("Time is up! Have a rest?", "Confirm", MessageBoxButtons.OKCancel) == DialogResult.OK)
+                {
+                    current = 0;
+                    max = (int)(nudRest.Value * 60);
+
+                    btnGO.Text = "Resting... Go work!";
+
+                    tmMain.Start();
+
+                    if (cbxMinimize.Checked)
+                    {
+                        this.WindowState = FormWindowState.Minimized;
+                    }
+                }
+                else if (btnGO.Text == "Resting... Go work!" && MessageBox.Show("Time is up! Begin to work now?", "Confirm", MessageBoxButtons.OKCancel) == DialogResult.OK)
+                {
+                    current = 0;
+                    max = (int)(nudMain.Value * 60);
+
+                    btnGO.Text = "Working... Break!";
+
+                    tmMain.Start();
+
+                    if (cbxMinimize.Checked)
+                    {
+                        this.WindowState = FormWindowState.Minimized;
+                    }
+                }
+                else
+                {
+                    btnGO.Text = "GO!";
+                    this.Text = "Progress GTD";
+
+                    TaskbarManager.Instance.SetProgressState(TaskbarProgressBarState.NoProgress);
+                }
             }
         }
 
