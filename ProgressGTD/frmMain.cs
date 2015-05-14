@@ -68,17 +68,22 @@ namespace ProgressGTD
 
                 if (cbxShow.Checked)
                 {
-                    TaskbarManager.Instance.SetProgressState(TaskbarProgressBarState.Normal);
                     TaskbarManager.Instance.SetProgressValue(current, max, this.Handle);
                 }
 
                 if (btnGO.Text == "Working... Break!")
                 {
-                    this.Text = "Working... [" + new TimeSpan(0, 0, max - current).ToString() + "]";
+                    // 工作用红色进度条
+                    TaskbarManager.Instance.SetProgressState(TaskbarProgressBarState.Error);
+                    this.Text = "[" + new TimeSpan(0, 0, max - current).ToString() + "]";
+                    this.Icon = global::ProgressGTD.Properties.Resources.IconRed;
                 }
                 else
                 {
-                    this.Text = "Resting... [" + new TimeSpan(0, 0, max - current).ToString() + "]";
+                    // 休息用绿色进度条
+                    TaskbarManager.Instance.SetProgressState(TaskbarProgressBarState.Normal);
+                    this.Text = "[" + new TimeSpan(0, 0, max - current).ToString() + "]";
+                    this.Icon = global::ProgressGTD.Properties.Resources.IconGreen;
                 }
             }
 
@@ -95,38 +100,15 @@ namespace ProgressGTD
 
                 if (btnGO.Text == "Working... Break!" && MessageBox.Show("Time is up! Have a rest?", "Confirm", MessageBoxButtons.OKCancel, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly) == DialogResult.OK)
                 {
-                    current = 0;
-                    max = (int)(nudRest.Value * 60);
-
-                    btnGO.Text = "Resting... Go work!";
-
-                    tmMain.Start();
-
-                    if (cbxMinimize.Checked)
-                    {
-                        this.WindowState = FormWindowState.Minimized;
-                    }
+                    StartRest();
                 }
                 else if (btnGO.Text == "Resting... Go work!" && MessageBox.Show("Time is up! Begin to work now?", "Confirm", MessageBoxButtons.OKCancel, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly) == DialogResult.OK)
                 {
-                    current = 0;
-                    max = (int)(nudMain.Value * 60);
-
-                    btnGO.Text = "Working... Break!";
-
-                    tmMain.Start();
-
-                    if (cbxMinimize.Checked)
-                    {
-                        this.WindowState = FormWindowState.Minimized;
-                    }
+                    StartWork();
                 }
                 else
                 {
-                    btnGO.Text = "GO!";
-                    this.Text = "Progress GTD";
-
-                    TaskbarManager.Instance.SetProgressState(TaskbarProgressBarState.NoProgress);
+                    Stop();
                 }
             }
         }
@@ -135,20 +117,20 @@ namespace ProgressGTD
         {
             if (btnGO.Text == "GO!" || (btnGO.Text == "Resting... Go work!" && pbMain.Value > 0 && MessageBox.Show("Sure to work?", "Confirm", MessageBoxButtons.OKCancel) == DialogResult.OK))
             {
-                current = 0;
-                max = (int)(nudMain.Value * 60);
-
-                btnGO.Text = "Working... Break!";
+                StartWork();
             }
-            else if (btnGO.Text == "Working... Break!" && MessageBox.Show("Sure to break?", "Confirm", MessageBoxButtons.OKCancel) == DialogResult.OK)
+            else if (btnGO.Text == "Working... Break!" && MessageBox.Show("Sure to rest?", "Confirm", MessageBoxButtons.OKCancel) == DialogResult.OK)
             {
-                current = 0;
-                max = (int)(nudRest.Value * 60);
-
-                btnGO.Text = "Resting... Go work!";
+                StartRest();
             }
+        }
 
-            TaskbarManager.Instance.SetProgressState(TaskbarProgressBarState.NoProgress);
+        private void StartWork()
+        {
+            current = 0;
+            max = (int)(nudMain.Value * 60);
+
+            btnGO.Text = "Working... Break!";
 
             tmMain.Start();
 
@@ -156,6 +138,28 @@ namespace ProgressGTD
             {
                 this.WindowState = FormWindowState.Minimized;
             }
+        }
+        private void StartRest()
+        {
+            current = 0;
+            max = (int)(nudRest.Value * 60);
+
+            btnGO.Text = "Resting... Go work!";
+
+            tmMain.Start();
+
+            if (cbxMinimize.Checked)
+            {
+                this.WindowState = FormWindowState.Minimized;
+            }
+        }
+        private void Stop()
+        {
+            btnGO.Text = "GO!";
+            this.Text = "Progress GTD";
+            this.Icon = global::ProgressGTD.Properties.Resources.IconNormal;
+
+            TaskbarManager.Instance.SetProgressState(TaskbarProgressBarState.NoProgress);
         }
 
         #region 读写配置文件
