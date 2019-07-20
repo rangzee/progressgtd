@@ -92,7 +92,7 @@ namespace ProgressGTD
                 tmMain.Stop();
 
                 TaskbarManager.Instance.SetProgressValue(current, max, this.Handle);
-                TaskbarManager.Instance.SetProgressState(TaskbarProgressBarState.Error);
+                //TaskbarManager.Instance.SetProgressState(TaskbarProgressBarState.Error);
                 //MessageBox.Show(this, "TIME IS UP!");
                 //TaskbarManager.Instance.SetProgressState(TaskbarProgressBarState.NoProgress);
 
