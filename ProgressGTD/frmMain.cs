@@ -123,6 +123,10 @@ namespace ProgressGTD
             {
                 StartRest();
             }
+            else
+            {
+                this.Icon = global::ProgressGTD.Properties.Resources.IconNormal;
+            }
         }
 
         private void StartWork()
