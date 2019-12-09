@@ -15,6 +15,7 @@ namespace ProgressGTD
     {
         private int current = 0;
         private int max = 100;
+        private ComponentResourceManager res = new ComponentResourceManager(typeof(frmMain));
 
         public frmMain()
         {
@@ -55,7 +56,62 @@ namespace ProgressGTD
             //{
             //    TaskbarManager.Instance.SetProgressState(TaskbarProgressBarState.NoProgress);
             //}
+
+            //System.Threading.Thread.CurrentThread.CurrentUICulture = new System.Globalization.CultureInfo("en-US");
+            LoadLanguage(this);
+            this.Text = res.GetString("Title");
+            btnGO.Text = res.GetString("Go");
+            lblMinutes.Text = res.GetString("Minutes");
+            lblMinutes2.Text = res.GetString("Minutes");
         }
+
+        #region Language
+        public static void LoadLanguage(Form form)
+        {
+            if (form != null)
+            {
+                ComponentResourceManager resources = new ComponentResourceManager(form.GetType());
+                resources.ApplyResources(form, "$this");
+                Loading(form, resources);
+            }
+        }
+        private static void Loading(Control control, ComponentResourceManager resources)
+        {
+            if (control is MenuStrip)
+            {
+                resources.ApplyResources(control, control.Name);
+                MenuStrip ms = (MenuStrip)control;
+                if (ms.Items.Count > 0)
+                {
+                    foreach (ToolStripMenuItem c in ms.Items)
+                    {
+                        Loading(c, resources);
+                    }
+                }
+            }
+
+            foreach (Control c in control.Controls)
+            {
+                resources.ApplyResources(c, c.Name);
+                Loading(c, resources);
+            }
+        }
+        private static void Loading(ToolStripMenuItem item, ComponentResourceManager resources)
+        {
+            if (item is ToolStripMenuItem)
+            {
+                resources.ApplyResources(item, item.Name);
+                ToolStripMenuItem tsmi = (ToolStripMenuItem)item;
+                if (tsmi.DropDownItems.Count > 0)
+                {
+                    foreach (ToolStripMenuItem c in tsmi.DropDownItems)
+                    {
+                        Loading(c, resources);
+                    }
+                }
+            }
+        }
+        #endregion Language
 
         private void tmMain_Tick(object sender, EventArgs e)
         {
@@ -71,7 +127,7 @@ namespace ProgressGTD
                     TaskbarManager.Instance.SetProgressValue(current, max, this.Handle);
                 }
 
-                if (btnGO.Text == "Working... Break!")
+                if (btnGO.Text == res.GetString("BreakWork"))
                 {
                     // 工作用红色进度条
                     TaskbarManager.Instance.SetProgressState(TaskbarProgressBarState.Error);
@@ -98,24 +154,24 @@ namespace ProgressGTD
 
                 pbMain.Value = 0;
 
-                if (btnGO.Text == "Working... Break!")
+                if (btnGO.Text == res.GetString("BreakWork"))
                 {
                     if (nudRest.Value >= 0.1m)
                     {
-                        if (MessageBox.Show("Time is up! Have a rest?", "Confirm", MessageBoxButtons.OKCancel, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly) == DialogResult.OK)
+                        if (MessageBox.Show(res.GetString("RestConfirm"), res.GetString("Confirm"), MessageBoxButtons.OKCancel, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly) == DialogResult.OK)
                         {
                             StartRest();
                         }
                     }
                     else
                     {
-                        if (MessageBox.Show("Begin new work now?", "Confirm", MessageBoxButtons.OKCancel, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly) == DialogResult.OK)
+                        if (MessageBox.Show(res.GetString("NewWorkConfirm"), res.GetString("Confirm"), MessageBoxButtons.OKCancel, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly) == DialogResult.OK)
                         {
                             StartWork();
                         }
                     }
                 }
-                else if (btnGO.Text == "Resting... Go work!" && MessageBox.Show("Time is up! Begin to work now?", "Confirm", MessageBoxButtons.OKCancel, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly) == DialogResult.OK)
+                else if (btnGO.Text == res.GetString("BreakRest") && MessageBox.Show(res.GetString("WorkConfirm"), "Confirm", MessageBoxButtons.OKCancel, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly) == DialogResult.OK)
                 {
                     StartWork();
                 }
@@ -130,17 +186,31 @@ namespace ProgressGTD
         {
             if (nudMain.Value < 0.1m)
             {
-                MessageBox.Show("Work time must greater than 0 !", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(res.GetString("WorkTimeError"), res.GetString("Error"), MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
 
-            if (btnGO.Text == "GO!" || (btnGO.Text == "Resting... Go work!" && pbMain.Value > 0 && MessageBox.Show("Sure to work?", "Confirm", MessageBoxButtons.OKCancel) == DialogResult.OK))
+            if (btnGO.Text == res.GetString("Go") || (btnGO.Text == res.GetString("BreakRest") && pbMain.Value > 0 && MessageBox.Show(res.GetString("SureToWork"), res.GetString("Confirm"), MessageBoxButtons.OKCancel) == DialogResult.OK))
             {
                 StartWork();
             }
-            else if (btnGO.Text == "Working... Break!" && MessageBox.Show("Sure to rest?", "Confirm", MessageBoxButtons.OKCancel) == DialogResult.OK)
+            else if (btnGO.Text == res.GetString("BreakWork"))
             {
-                StartRest();
+                if (nudRest.Value >= 0.1m)
+                {
+
+                    if (MessageBox.Show(res.GetString("SureToRest"), res.GetString("Confirm"), MessageBoxButtons.OKCancel) == DialogResult.OK)
+                    {
+                        StartRest();
+                    }
+                }
+                else
+                {
+                    if (MessageBox.Show(res.GetString("NewWorkConfirm"), res.GetString("Confirm"), MessageBoxButtons.OKCancel, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly) == DialogResult.OK)
+                    {
+                        StartWork();
+                    }
+                }
             }
             else
             {
@@ -153,7 +223,7 @@ namespace ProgressGTD
             current = 0;
             max = nudMain.Value >= 0.1m ? (int)(nudMain.Value * 60) : 0;
 
-            btnGO.Text = "Working... Break!";
+            btnGO.Text = res.GetString("BreakWork");
 
             tmMain.Start();
 
@@ -167,7 +237,7 @@ namespace ProgressGTD
             current = 0;
             max = nudRest.Value >= 0.1m ? (int)(nudRest.Value * 60) : 0;
 
-            btnGO.Text = "Resting... Go work!";
+            btnGO.Text = res.GetString("BreakRest");
 
             tmMain.Start();
 
@@ -178,8 +248,8 @@ namespace ProgressGTD
         }
         private void Stop()
         {
-            btnGO.Text = "GO!";
-            this.Text = "Progress GTD";
+            btnGO.Text = res.GetString("Go");
+            this.Text = res.GetString("Title");
             this.Icon = global::ProgressGTD.Properties.Resources.IconNormal;
 
             TaskbarManager.Instance.SetProgressState(TaskbarProgressBarState.NoProgress);

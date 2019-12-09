@@ -33,13 +33,13 @@
             this.pbMain = new System.Windows.Forms.ProgressBar();
             this.tmMain = new System.Windows.Forms.Timer(this.components);
             this.nudMain = new System.Windows.Forms.NumericUpDown();
-            this.label1 = new System.Windows.Forms.Label();
+            this.lblMinutes = new System.Windows.Forms.Label();
             this.btnGO = new System.Windows.Forms.Button();
             this.cbxShow = new System.Windows.Forms.CheckBox();
-            this.label2 = new System.Windows.Forms.Label();
+            this.lblMinutes2 = new System.Windows.Forms.Label();
             this.nudRest = new System.Windows.Forms.NumericUpDown();
-            this.label3 = new System.Windows.Forms.Label();
-            this.label4 = new System.Windows.Forms.Label();
+            this.lblWork = new System.Windows.Forms.Label();
+            this.lblRest = new System.Windows.Forms.Label();
             this.cbxMinimize = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.nudMain)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudRest)).BeginInit();
@@ -77,14 +77,14 @@
             0});
             this.nudMain.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.nudMain_KeyPress);
             // 
-            // label1
+            // lblMinutes
             // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(116, 14);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(59, 12);
-            this.label1.TabIndex = 2;
-            this.label1.Text = "Minute(s)";
+            this.lblMinutes.AutoSize = true;
+            this.lblMinutes.Location = new System.Drawing.Point(116, 14);
+            this.lblMinutes.Name = "lblMinutes";
+            this.lblMinutes.Size = new System.Drawing.Size(59, 12);
+            this.lblMinutes.TabIndex = 2;
+            this.lblMinutes.Text = "Minute(s)";
             // 
             // btnGO
             // 
@@ -107,14 +107,14 @@
             this.cbxShow.Text = "Show progress in taskbar";
             this.cbxShow.UseVisualStyleBackColor = true;
             // 
-            // label2
+            // lblMinutes2
             // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(116, 44);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(59, 12);
-            this.label2.TabIndex = 7;
-            this.label2.Text = "Minute(s)";
+            this.lblMinutes2.AutoSize = true;
+            this.lblMinutes2.Location = new System.Drawing.Point(116, 44);
+            this.lblMinutes2.Name = "lblMinutes2";
+            this.lblMinutes2.Size = new System.Drawing.Size(59, 12);
+            this.lblMinutes2.TabIndex = 7;
+            this.lblMinutes2.Text = "Minute(s)";
             // 
             // nudRest
             // 
@@ -134,23 +134,23 @@
             0,
             0});
             // 
-            // label3
+            // lblWork
             // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(12, 12);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(29, 12);
-            this.label3.TabIndex = 8;
-            this.label3.Text = "Work";
+            this.lblWork.AutoSize = true;
+            this.lblWork.Location = new System.Drawing.Point(9, 14);
+            this.lblWork.Name = "lblWork";
+            this.lblWork.Size = new System.Drawing.Size(29, 12);
+            this.lblWork.TabIndex = 8;
+            this.lblWork.Text = "Work";
             // 
-            // label4
+            // lblRest
             // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(12, 44);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(29, 12);
-            this.label4.TabIndex = 9;
-            this.label4.Text = "Rest";
+            this.lblRest.AutoSize = true;
+            this.lblRest.Location = new System.Drawing.Point(9, 44);
+            this.lblRest.Name = "lblRest";
+            this.lblRest.Size = new System.Drawing.Size(29, 12);
+            this.lblRest.TabIndex = 9;
+            this.lblRest.Text = "Rest";
             // 
             // cbxMinimize
             // 
@@ -168,13 +168,13 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(196, 166);
             this.Controls.Add(this.cbxMinimize);
-            this.Controls.Add(this.label4);
-            this.Controls.Add(this.label3);
-            this.Controls.Add(this.label2);
+            this.Controls.Add(this.lblRest);
+            this.Controls.Add(this.lblWork);
+            this.Controls.Add(this.lblMinutes2);
             this.Controls.Add(this.nudRest);
             this.Controls.Add(this.cbxShow);
             this.Controls.Add(this.btnGO);
-            this.Controls.Add(this.label1);
+            this.Controls.Add(this.lblMinutes);
             this.Controls.Add(this.nudMain);
             this.Controls.Add(this.pbMain);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
@@ -198,13 +198,13 @@
         private System.Windows.Forms.ProgressBar pbMain;
         private System.Windows.Forms.Timer tmMain;
         private System.Windows.Forms.NumericUpDown nudMain;
-        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label lblMinutes;
         private System.Windows.Forms.Button btnGO;
         private System.Windows.Forms.CheckBox cbxShow;
-        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label lblMinutes2;
         private System.Windows.Forms.NumericUpDown nudRest;
-        private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Label lblWork;
+        private System.Windows.Forms.Label lblRest;
         private System.Windows.Forms.CheckBox cbxMinimize;
     }
 }
