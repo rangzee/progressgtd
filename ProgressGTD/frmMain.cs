@@ -98,9 +98,22 @@ namespace ProgressGTD
 
                 pbMain.Value = 0;
 
-                if (btnGO.Text == "Working... Break!" && MessageBox.Show("Time is up! Have a rest?", "Confirm", MessageBoxButtons.OKCancel, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly) == DialogResult.OK)
+                if (btnGO.Text == "Working... Break!")
                 {
-                    StartRest();
+                    if (nudRest.Value >= 0.1m)
+                    {
+                        if (MessageBox.Show("Time is up! Have a rest?", "Confirm", MessageBoxButtons.OKCancel, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly) == DialogResult.OK)
+                        {
+                            StartRest();
+                        }
+                    }
+                    else
+                    {
+                        if (MessageBox.Show("Begin new work now?", "Confirm", MessageBoxButtons.OKCancel, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly) == DialogResult.OK)
+                        {
+                            StartWork();
+                        }
+                    }
                 }
                 else if (btnGO.Text == "Resting... Go work!" && MessageBox.Show("Time is up! Begin to work now?", "Confirm", MessageBoxButtons.OKCancel, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly) == DialogResult.OK)
                 {
@@ -115,6 +128,12 @@ namespace ProgressGTD
 
         private void btnGO_Click(object sender, EventArgs e)
         {
+            if (nudMain.Value < 0.1m)
+            {
+                MessageBox.Show("Work time must greater than 0 !", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
             if (btnGO.Text == "GO!" || (btnGO.Text == "Resting... Go work!" && pbMain.Value > 0 && MessageBox.Show("Sure to work?", "Confirm", MessageBoxButtons.OKCancel) == DialogResult.OK))
             {
                 StartWork();
@@ -132,7 +151,7 @@ namespace ProgressGTD
         private void StartWork()
         {
             current = 0;
-            max = (int)(nudMain.Value * 60);
+            max = nudMain.Value >= 0.1m ? (int)(nudMain.Value * 60) : 0;
 
             btnGO.Text = "Working... Break!";
 
@@ -146,7 +165,7 @@ namespace ProgressGTD
         private void StartRest()
         {
             current = 0;
-            max = (int)(nudRest.Value * 60);
+            max = nudRest.Value >= 0.1m ? (int)(nudRest.Value * 60) : 0;
 
             btnGO.Text = "Resting... Go work!";
 
