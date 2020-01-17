@@ -162,12 +162,20 @@ namespace ProgressGTD
                         {
                             StartRest();
                         }
+                        else
+                        {
+                            Stop();
+                        }
                     }
                     else
                     {
                         if (MessageBox.Show(res.GetString("NewWorkConfirm"), res.GetString("Confirm"), MessageBoxButtons.OKCancel, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly) == DialogResult.OK)
                         {
                             StartWork();
+                        }
+                        else
+                        {
+                            Stop();
                         }
                     }
                 }
