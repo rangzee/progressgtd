@@ -24,7 +24,7 @@ namespace ProgressGTD
 
         private void frmMain_Load(object sender, EventArgs e)
         {
-            this.Left = 0;
+            this.Left = Screen.FromControl(this).WorkingArea.Width / 2 - this.Width;
             this.Top = Screen.FromControl(this).WorkingArea.Height - this.Height;
 
             var interval = GetConfig("Interval");
